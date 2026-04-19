@@ -13,11 +13,13 @@ def main():
         soup = BeautifulSoup(req.content, 'html.parser')
 
         lang_list = soup.find_all('a', class_='link-box')
-        for element in lang_list:
-            url = f"https:{element['href']}"
-            lang = element.find('strong').text
-            cnt = element.find('small').text
-            print(lang, url, cnt)
+        with open('../result/wikipedia-results.txt', 'w', encoding='utf-8') as f:
+            for element in lang_list:
+                url = f"https:{element['href']}"
+                lang = element.find('strong').text
+                cnt = element.find('small').text
+                print(lang, url, cnt)
+                f.write(f'{url};{lang};{cnt}\n')
 
     else:
         print(f'Ошибка запроса\nStatuse Code: {req.status_code}')
