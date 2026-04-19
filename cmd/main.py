@@ -1,5 +1,6 @@
 import requests 
 from bs4 import BeautifulSoup
+import os
 
 URL_1 = 'https://www.wikipedia.org/'
 URL_2 = 'https://www.python.org/'
@@ -13,6 +14,11 @@ def main():
         soup = BeautifulSoup(req.content, 'html.parser')
 
         lang_list = soup.find_all('a', class_='link-box')
+
+        result_path = '../results'
+        if not os.path.exists(result_path):
+            os.makedirs(result_path)
+            
         with open('../result/wikipedia-results.txt', 'w', encoding='utf-8') as f:
             for element in lang_list:
                 url = f"https:{element['href']}"
