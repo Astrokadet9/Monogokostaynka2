@@ -1,4 +1,5 @@
 import requests 
+from bs4 import BeautifulSoup
 
 URL_1 = 'https://www.wikipedia.org/'
 URL_2 = 'https://www.python.org/'
@@ -9,13 +10,17 @@ def main():
     })
     if req.status_code == 200:
         print(req.headers)
-        with open('req.html', 'wb') as f:
-            f.write(req.content)
+        soup = BeautifulSoup(req.content, 'html.parser')
+
+        lang_list = soup.find_all('a', class_='link-box')
+        for element in lang_list:
+            url = f"https:{element['href']}"
+            lang = element.find('strong').text
+            cnt = element.find('small').text
+            print(lang, url, cnt)
 
     else:
         print(f'Ошибка запроса\nStatuse Code: {req.status_code}')
-        with open('error.html', 'wb') as f:
-            f.write(req.content)
 
 if __name__ == '__main__':
     main()
