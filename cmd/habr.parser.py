@@ -15,7 +15,7 @@ def main():
 
         lang_list = soup.find_all('a', class_='link-box')
 
-        results_path check_and_create_result()
+        results_path = check_and_create_result()
             
         with open('../result/wikipedia-results.txt', 'w', encoding='utf-8') as f:
             for element in lang_list:
